@@ -1,0 +1,9 @@
+server:
+  port: 8090
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://flourishferguson:Mypassword001@cluster0.7dhcjlp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: vehicles
+
