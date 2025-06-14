@@ -4,9 +4,11 @@ import com.example.userapp.model.UserClass;
 import com.example.userapp.repository.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,14 +33,26 @@ public class UserService {
         return repo.save(user);
     }
 
-    public String verify(UserClass user) {
+    public UserClass verify(UserClass user) {
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
+        );
 
-        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),
-                user.getPassword()));
-        if (authentication.isAuthenticated())
-            //return "success";
-            return jwtService.generateToken(user.getEmail());
+        if (authentication.isAuthenticated()) {
+            String token = jwtService.generateToken(user.getEmail());
 
-        return "failure";
+            UserClass fullUser = repo.findByEmail(user.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            return new UserClass(
+                    fullUser.getId(),
+                    fullUser.getFullName(),
+                    fullUser.getEmail(),
+                    fullUser.getPhoneNumber(),
+                    token
+            );
+        }
+
+        throw new BadCredentialsException("Invalid email or password");
     }
 }

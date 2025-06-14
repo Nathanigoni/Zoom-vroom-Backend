@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.security.core.AuthenticationException;
+
 import static org.springframework.web.servlet.function.ServerResponse.status;
 
 @RestController
@@ -27,9 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserClass user) {
-        String token = service.verify(user);
-        return ResponseEntity.ok(token);
+    public ResponseEntity<UserClass> login(@RequestBody UserClass user) {
+        UserClass response = service.verify(user);
+        return ResponseEntity.ok(response); // ✅ this sends only safe data
     }
 
 }

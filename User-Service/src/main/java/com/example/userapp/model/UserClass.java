@@ -15,16 +15,17 @@ public class UserClass {
     private String password;
 //    @Column(unique = true, nullable = false)
     private String phoneNumber;
+    private String token;
 
     public UserClass() {
     }
 
-    public UserClass(Long id, String fullName, String email, String password, String phoneNumber) {
+    public UserClass(Long id, String fullName, String email, String phoneNumber, String token) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
+        this.token = token;
     }
 
     public Long getId() {
@@ -51,19 +52,27 @@ public class UserClass {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
