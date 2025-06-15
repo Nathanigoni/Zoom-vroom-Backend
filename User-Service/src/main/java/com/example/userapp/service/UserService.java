@@ -1,5 +1,6 @@
 package com.example.userapp.service;
 
+import com.example.userapp.model.LoginResponse;
 import com.example.userapp.model.UserClass;
 import com.example.userapp.repository.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,19 @@ public class UserService {
 
 
     public UserClass register(UserClass user) {
+        // Check if email already exists
+        if (repo.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("A user with this email already exists.");
+        }
+        // Check if PhoneNumber already exists
+        if (repo.findByPhoneNumber(user.getPhoneNumber()).isPresent()) {
+            throw new IllegalArgumentException("A user with this phone number already exists.");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println("user was registered successfully");
         return repo.save(user);
     }
-
-    public UserClass verify(UserClass user) {
+    public LoginResponse verify(UserClass user) {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
         );
@@ -44,7 +52,7 @@ public class UserService {
             UserClass fullUser = repo.findByEmail(user.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            return new UserClass(
+            return new LoginResponse(
                     fullUser.getId(),
                     fullUser.getFullName(),
                     fullUser.getEmail(),

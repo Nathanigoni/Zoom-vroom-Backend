@@ -1,30 +1,23 @@
 package com.example.userapp.model;
 
-import jakarta.persistence.*;
 
-@Entity
-public class UserClass {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
+public class LoginResponse {
     private Long id;
     private String fullName;
-
-//    @Column(unique = true, nullable = false)
     private String email;
-    private String password;
-//    @Column(unique = true, nullable = false)
     private String phoneNumber;
+    private String token;
 
-    public UserClass() {
+    public LoginResponse() {
     }
 
-    public UserClass(Long id, String fullName, String email, String password, String phoneNumber) {
+    public LoginResponse(Long id, String fullName, String email, String phoneNumber, String token) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
+        this.token = token;
     }
 
     public Long getId() {
@@ -51,19 +44,19 @@ public class UserClass {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
