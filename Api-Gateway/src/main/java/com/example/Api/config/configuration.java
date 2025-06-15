@@ -16,23 +16,36 @@ public class configuration {
                                 .route("login", r -> r.path("/User/login/**") // Exclude JWT filter for login if needed
                                                 .uri("https://zoom-vroom-user-service.onrender.com"))
 
-                                .route("Ticket-book", r -> r.path("/ticket/book**")
-                                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
-                                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
-                                .route("Ticket-cancel", r -> r.path("/ticket/cancel/{ticketId}**")
-                                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
-                                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
-                                .route("Ticket-get", r -> r.path("/ticket/{ticketId}**")
-                                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
-                                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
-                                .route("Ticket-create", r -> r.path("/ticket/create**")
-                                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
-                                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
-                                .route("Ticket-all", r -> r.path("/ticket/all**")
-                                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
-                                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
+                        .route("ticket-create", r -> r.path("/tickets/create")
+                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
+                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
 
-                                .route("vehicles-add", r -> r.path("/vehicles")
+                        .route("ticket-book", r -> r.path("/tickets/book/{ticketId}")
+                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
+                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
+
+                        .route("ticket-cancel", r -> r.path("/tickets/cancel")
+                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
+                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
+
+                        .route("ticket-get-by-id", r -> r.path("/tickets/{ticketId}")
+                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
+                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
+
+                        .route("ticket-get-all", r -> r.path("/tickets/all")
+                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
+                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
+
+                        .route("ticket-by-user", r -> r.path("/tickets/user/{userId}")
+                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
+                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
+
+                        .route("ticket-save", r -> r.path("/tickets/save")
+                                .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
+                                .uri("https://zoom-vroom-backend-ticket-service.onrender.com"))
+
+
+                        .route("vehicles-add", r -> r.path("/vehicles")
                                                 .and().method("POST")
                                                 .filters(f -> f.filter(jwtfilter.apply(new JWTFilter.Config())))
                                                 .uri("https://zoom-vroom-backend-vehicle-service.onrender.com"))
