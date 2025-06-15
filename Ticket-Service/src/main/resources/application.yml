@@ -4,5 +4,5 @@ server:
 spring:
   data:
     mongodb:
-#      uri: mongodb+srv://usnow02:miminatekoko@cluster0.dwpolo1.mongodb.net/ticketdatabase?retryWrites=true&w=majority&appName=Cluster0
+      #      uri: mongodb+srv://usnow02:miminatekoko@cluster0.dwpolo1.mongodb.net/ticketdatabase?retryWrites=true&w=majority&appName=Cluster0
       uri: mongodb+srv://fahd:virus123m@cluster0.u1fysxi.mongodb.net/ticketdatabase?retryWrites=true&w=majority
