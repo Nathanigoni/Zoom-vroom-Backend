@@ -13,10 +13,12 @@ public class Ticket {
     private String userId;
     private String location;
     private LocalDateTime bookingTimestamp;
-    private LocalDateTime travelTime;
+        private LocalDateTime travelTime;
     private LocalDateTime expiryTime;
     private TicketStatus status;
     private LocalDateTime savedTimestamp;
+    private double price;
+
 
     public Ticket(String seatNumber, String location, LocalDateTime travelTime) {
         this.ticketId = UUID.randomUUID().toString();
@@ -60,6 +62,14 @@ public class Ticket {
     public void setSavedTimestamp(LocalDateTime savedTimestamp) {
         this.savedTimestamp = savedTimestamp;
     }
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
 
     @Override
     public String toString() {

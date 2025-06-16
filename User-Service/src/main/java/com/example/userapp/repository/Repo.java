@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface Repo extends JpaRepository<UserClass, Integer> {
+public interface Repo extends JpaRepository<UserClass, Long> {
     Optional<UserClass> findByEmail(String email);
     Optional<UserClass> findByPhoneNumber(String email);
 

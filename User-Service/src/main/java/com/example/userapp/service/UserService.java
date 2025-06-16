@@ -3,15 +3,17 @@ package com.example.userapp.service;
 import com.example.userapp.model.LoginResponse;
 import com.example.userapp.model.UserClass;
 import com.example.userapp.repository.Repo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -41,6 +43,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
+
     public LoginResponse verify(UserClass user) {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
@@ -63,4 +66,29 @@ public class UserService {
 
         throw new BadCredentialsException("Invalid email or password");
     }
+
+
+
+
+    public void deleteById(long id) {
+        repo.deleteById(id);
+    }
+
+    public UserClass updateuser(Long id, UserClass userData) {
+        UserClass existingUser = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Update fields
+        existingUser.setFullName(userData.getFullName());
+        existingUser.setEmail(userData.getEmail());
+        existingUser.setPhoneNumber(userData.getPhoneNumber());
+
+        // Optional: re-encode password if provided
+        if (userData.getPassword() != null && !userData.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(userData.getPassword()));
+        }
+
+        return repo.save(existingUser);
+    }
+
 }

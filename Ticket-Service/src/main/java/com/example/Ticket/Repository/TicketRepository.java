@@ -17,7 +17,4 @@ public interface TicketRepository extends MongoRepository<Ticket, String> {
     Optional<Ticket> findByTicketId(String ticketId);
     List<Ticket> findByUserIdAndStatus(String userId, TicketStatus status);
     List<Ticket> findByUserId(String userId);
-
-    boolean existsBySeatNumberAndTravelTimeAndStatus(
-            String seatNumber, LocalDateTime travelTime, TicketStatus status);
 }

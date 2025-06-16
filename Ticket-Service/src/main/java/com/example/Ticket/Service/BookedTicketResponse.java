@@ -10,14 +10,16 @@ public class BookedTicketResponse {
     private LocalDateTime expiryTime;
     private LocalDateTime travelTime;
     private TicketStatus status;
+    private double price;
 
     public BookedTicketResponse(String seatNumber, String location, LocalDateTime expiryTime,
-                                LocalDateTime travelTime, TicketStatus status) {
+                                LocalDateTime travelTime, TicketStatus status, double price) {
         this.seatNumber = seatNumber;
         this.location = location;
         this.expiryTime = expiryTime;
         this.travelTime = travelTime;
         this.status = status;
+        this.price = price;
     }
 
     public String getSeatNumber() { return seatNumber; }
@@ -25,4 +27,5 @@ public class BookedTicketResponse {
     public LocalDateTime getExpiryTime() { return expiryTime; }
     public LocalDateTime getTravelTime() { return travelTime; }
     public TicketStatus getStatus() { return status; }
+    public double getPrice() {return price;}
 }

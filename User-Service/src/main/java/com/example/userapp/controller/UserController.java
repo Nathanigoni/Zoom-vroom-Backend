@@ -46,4 +46,18 @@ public class UserController {
         }
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateAdmin(@PathVariable Long id, @RequestBody UserClass user) {
+        try {
+            UserClass updated = service.updateuser(id, user);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public void deleteAdmin(@PathVariable int id){
+        service.deleteById(id);
+    }
+
 }
