@@ -3,7 +3,6 @@ package com.example.userapp.service;
 import com.example.userapp.model.LoginResponse;
 import com.example.userapp.model.UserClass;
 import com.example.userapp.repository.Repo;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,10 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserService {
+
     @Autowired
     private Repo repo;
 
@@ -29,13 +27,11 @@ public class UserService {
     @Autowired
     private JWTUtil jwtService;
 
-
     public UserClass register(UserClass user) {
-        // Check if email already exists
         if (repo.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalArgumentException("A user with this email already exists.");
         }
-        // Check if PhoneNumber already exists
+
         if (repo.findByPhoneNumber(user.getPhoneNumber()).isPresent()) {
             throw new IllegalArgumentException("A user with this phone number already exists.");
         }
@@ -67,23 +63,18 @@ public class UserService {
         throw new BadCredentialsException("Invalid email or password");
     }
 
-
-
-
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         repo.deleteById(id);
     }
 
-    public UserClass updateuser(Long id, UserClass userData) {
+    public UserClass updateuser(String id, UserClass userData) {
         UserClass existingUser = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Update fields
         existingUser.setFullName(userData.getFullName());
         existingUser.setEmail(userData.getEmail());
         existingUser.setPhoneNumber(userData.getPhoneNumber());
 
-        // Optional: re-encode password if provided
         if (userData.getPassword() != null && !userData.getPassword().isEmpty()) {
             existingUser.setPassword(passwordEncoder.encode(userData.getPassword()));
         }
@@ -91,4 +82,9 @@ public class UserService {
         return repo.save(existingUser);
     }
 
+
+    public UserClass getUserById(String id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

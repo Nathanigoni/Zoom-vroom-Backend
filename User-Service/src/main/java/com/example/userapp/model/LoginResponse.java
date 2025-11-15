@@ -1,18 +1,14 @@
 package com.example.userapp.model;
 
-
-
 public class LoginResponse {
-    private Long id;
+
+    private String id; // Change from Long to String
     private String fullName;
     private String email;
     private String phoneNumber;
     private String token;
 
-    public LoginResponse() {
-    }
-
-    public LoginResponse(Long id, String fullName, String email, String phoneNumber, String token) {
+    public LoginResponse(String id, String fullName, String email, String phoneNumber, String token) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -20,43 +16,23 @@ public class LoginResponse {
         this.token = token;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getToken() {
         return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

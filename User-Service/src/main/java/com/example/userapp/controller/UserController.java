@@ -49,7 +49,7 @@ public class UserController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAdmin(@PathVariable Long id, @RequestBody UserClass user) {
         try {
-            UserClass updated = service.updateuser(id, user);
+            UserClass updated = service.updateuser(String.valueOf(id), user);
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
@@ -57,7 +57,19 @@ public class UserController {
     }
     @DeleteMapping("/delete/{id}")
     public void deleteAdmin(@PathVariable int id){
-        service.deleteById(id);
+        service.deleteById(String.valueOf(id));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        try {
+            UserClass user = service.getUserById(String.valueOf(id));
+            user.setPassword(null); // Hide password
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }
