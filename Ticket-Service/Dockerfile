@@ -1,19 +1,24 @@
-# ---------- Build Stage ----------
-FROM eclipse-temurin:21-jdk as build
+FROM eclipse-temurin:21-jre-jammy
 
-
-WORKDIR /app
-COPY . .
-
-RUN chmod +x ./gradlew
-RUN ./gradlew bootJar --no-daemon
-
-# ---------- Runtime Stage ----------
-FROM eclipse-temurin:22-jdk
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
+
+RUN groupadd -r spring && useradd -r -g spring spring
+USER spring
+
+# Copy the pre-built JAR file
+COPY build/libs/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+ENTRYPOINT ["java", \
+    "-Djava.security.egd=file:/dev/./urandom", \
+    "-XX:+UseContainerSupport", \
+    "-XX:MaxRAMPercentage=75.0", \
+    "-jar", "app.jar"]
